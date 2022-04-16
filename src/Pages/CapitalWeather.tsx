@@ -34,8 +34,6 @@ const CapitalWeather: FC = () =>
         fetchInformation();
     }, [capital])
 
-    console.log(weatherInfo);
-
     return (
         <Container>
             <Box sx={{

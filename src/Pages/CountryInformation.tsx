@@ -45,66 +45,71 @@ const CountryInformation: FC = () =>
             {
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: '25px' }}>
                     <Card sx={{ maxWidth: 345 }}>
-                        <CardActionArea>
-                            {loading ? <Skeleton variant="rectangular" animation="wave" width="320px" height="192px" /> :
-                                <CardMedia
-                                    component="img"
-                                    height="auto"
-                                    image={countryInfo[0]?.flags?.png}
-                                    alt="Flag"
-                                />
+                        {loading ? <Skeleton variant="rectangular" animation="wave" width="320px" height="192px" /> :
+                            <CardMedia
+                                component="img"
+                                height="auto"
+                                image={countryInfo[0]?.flags?.png}
+                                alt="Flag"
+                            />
+                        }
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                {loading ? <Skeleton /> :
+                                    `${countryInfo[0]?.name.common}`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Capital: ${countryInfo[0]?.capital}`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Area: ${countryInfo[0]?.area} sq km`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Population: ${countryInfo[0]?.population}`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Latitude: ${countryInfo[0]?.latlng[0]}`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Longitude: ${countryInfo[0]?.latlng[1]}`
+                                }
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Region: ${countryInfo[0]?.region}`
+                                }
+                            </Typography>
+
+                            <Typography variant="body1" color="text.secondary">
+                                {loading ? <Skeleton /> :
+                                    `Sub Region: ${countryInfo[0]?.subregion}`
+                                }
+                            </Typography>
+                            {!loading &&
+                                <Button
+                                    variant="outlined"
+                                    sx={{ mt: 2 }}
+                                    onClick={() => navigate(`/capital-weather/${countryInfo[0]?.capital}`)}
+                                >
+                                    Weather
+                                </Button>
                             }
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    {loading ? <Skeleton /> :
-                                        `${countryInfo[0]?.name.common}`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Capital: ${countryInfo[0]?.capital}`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Area: ${countryInfo[0]?.area} sq km`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Population: ${countryInfo[0]?.population}`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Latitude: ${countryInfo[0]?.latlng[0]}`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Longitude: ${countryInfo[0]?.latlng[1]}`
-                                    }
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Region: ${countryInfo[0]?.region}`
-                                    }
-                                </Typography>
-
-                                <Typography variant="body1" color="text.secondary">
-                                    {loading ? <Skeleton /> :
-                                        `Sub Region: ${countryInfo[0]?.subregion}`
-                                    }
-                                </Typography>
-                                {!loading &&
-                                    <Button onClick={() => navigate(`/capital-weather/${countryInfo[0]?.capital}`)} variant="outlined" sx={{ mt: 2 }}>Weather</Button>}
-                            </CardContent>
-                        </CardActionArea>
+                        </CardContent>
                     </Card>
                 </Box>
             }
