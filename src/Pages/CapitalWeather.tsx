@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 
 interface WeatherTypes
 {
-    temperature: string,
-    weather_icons: string[],
-    weather_descriptions: string[],
-    wind_speed: number,
-    pressure: number,
-    precip: number
+    main: {
+        temp: number,
+        humidity: number,
+    },
+    wind: {
+        speed: number
+    },
+    weather: {
+        [index: number]: { icon: string, main: string }
+    },
 }
 
 const CapitalWeather: FC = () =>
@@ -23,11 +27,13 @@ const CapitalWeather: FC = () =>
         const fetchInformation = () =>
         {
             setLoading(true);
-            fetch(`http://api.weatherstack.com/current?access_key=6c9d688738576389983c396d8aad817a&query=${capital}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=ae8591ca06c5774da1b92eb2646c9f70`)
                 .then(res => res.json())
                 .then(data =>
                 {
-                    setWeatherInfo(data.current);
+                    console.log(data.weather[0].icon);
+                    console.log(data.weather[0].description);
+                    setWeatherInfo(data);
                     setLoading(false);
                 })
         }
@@ -47,32 +53,29 @@ const CapitalWeather: FC = () =>
                                     `${capital}`
                                 }
                             </Typography>
-                            <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+                            <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
                                 {loading ?
-                                    <Skeleton variant="circular" height="50px" width="50px" /> : <Avatar sx={{ height: '50px', width: '50px', marginRight: '10px' }} alt="Icon" src={weatherInfo?.weather_icons[0]} />
+                                    <Skeleton variant="circular" height="50px" width="50px" /> : <Avatar sx={{ height: "50px", width: "50px", border: '1px solid gray', marginRight: '10px' }} alt="Icon" src={`https://openweathermap.org/img/wn/${weatherInfo?.weather[0]?.icon}@4x.png`} />
                                 }
                                 <Typography variant='body1'>
                                     {
-                                        loading ? <Skeleton width="60%" /> : `${weatherInfo?.weather_descriptions[0]}`
+                                        loading ? <Skeleton width="60%" /> : `${weatherInfo?.weather[0]?.main}`
                                     }
                                 </Typography>
                             </Box>
+
                             <Typography variant='h6'>
                                 {loading ? <Skeleton width="50%" /> :
-                                    `Temperature: ${weatherInfo?.temperature}°C`}
+                                    `Temperature: ${weatherInfo?.main?.temp} K`}
                             </Typography>
 
                             <Typography variant='body1'>
                                 {loading ? <Skeleton width="50%" /> :
-                                    `Wind: ${weatherInfo?.wind_speed} kmph`}</Typography>
+                                    `Humidity: ${weatherInfo?.main?.humidity} %`}</Typography>
 
                             <Typography variant='body1'>
                                 {loading ? <Skeleton width="50%" /> :
-                                    `Precip:  ${weatherInfo?.precip} mm`}</Typography>
-
-                            <Typography variant='body1'>
-                                {loading ? <Skeleton width="50%" /> :
-                                    `Pressure: ${weatherInfo?.pressure} mb`}</Typography>
+                                    `Wind Speed:  ${weatherInfo?.wind?.speed} km/h`}</Typography>
                         </CardContent>
                     </CardActionArea>
                 </Card>
